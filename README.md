@@ -1,7 +1,9 @@
 # python-project-template
 
-This is a template for new python projects according to some best practices and recommendation from different sources:
+This is a template for new python projects according to best practices and recommendation from different sources:
 
+- *.gitignore* is proposed from GitHub for python projects
+- *LICENSE.md* is proposed from GitHub for MIT license
 - Introducing "Dead Simple Python": [https://dev.to/codemouse92/introducing-dead-simple-python-563o](https://dev.to/codemouse92/introducing-dead-simple-python-563o)
 
 This are the main aspect to be considered according to best practices.
@@ -62,9 +64,89 @@ It is recommended to start the code with a "she-bang" like this:
 
 instead of using the full path to the python binary.
 
+### Project Structure and Imports
+
+Besides files *README.md*, *LICENSE.md* and *.gitignore*, your project must reside in a separated directory itself.
+
+According to PEP8:
+
+- Modules should have short, all-lowercase names. Underscores can be used in the module name if it improves readability.
+- Python packages should also have short, all-lowercase names, although the use of underscores is discouraged.
+
+Any Python (.py) file is a module and a bunch of modules in a directory is a package. Also, a package must include a file called __init__.py
+
+Modules are named by filenames and packages are named by their directory name. This means that filenames should be all lowercase, with underscores if that improves readability. Similarly, directory names should be all lowercase, without underscores if at all avoidable.
+
+This is OK:
+
+```bash
+pyproject/data/load_settings.py
+```
+
+this is NOT OK:
+
+```console
+pyproject/Data/LoadSettings.py
+```
+
+A package can contain other packages. Thus, we can call our top-level directory as the main package and all the packages underneath as subpackages. If a subdirectory don't include *__init__.py*, it should not be considered a package.
+
+Another special file in the top-level package is *__main__.py*. This is the file that is run when we execute our top-level package directly via *python -m pyproject*.
+
+Regarding to imports, we can use it like this:
+
+```console
+from smart_door import open, close
+open()
+close()
+```
+
+Just in case we are importing more that one module that includes the same methods, then we can explicitly call the functions.
+
+We can also import stuff from our own project (using absolute or relative path):
+
+```console
+python-project-template
+├── LICENSE.md
+├── README.md
+├── pyproject
+│   ├── app.py
+│   ├── common
+│   │   ├── classproperty.py
+│   │   ├── constants.py
+│   │   ├── game_enums.py
+│   │   └── __init__.py
+ ...
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── resources
+ ...
+```
+
+```console
+from pyproject.common.game_enums import GameMode
+```
+
+According to this example, the content of *__main__.py* file is something like this:
+
+```console
+from pyproject import app
+
+if __name__ == '__main__':
+    app.run()
+```
+
+Also, *app.py* includes the following at the bottom of the file:
+
+```console
+if __name__ == '__main__':
+    run()
+```
+
+This way we can run *python -m pyproject.app* and we get the same results as *python -m pyproject*
+
 ## Next
 
-1. Project Structure and Imports
 1. Data Typing and Immutability
 1. Classes
 1. Errors
