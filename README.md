@@ -145,9 +145,105 @@ if __name__ == '__main__':
 
 This way we can run *python -m pyproject.app* and we get the same results as *python -m pyproject*
 
+## Data Typing and Immutability
+
+Most important characteristics for variables in python are:
+
+- Dynamically typed: the data type of a variable (object) is determined at run time.
+
+- Strongly typed: once the variable is assigned, the language has strict rules about what you can do to different data types.
+
+to get the data type from a variable we can use:
+
+```console
+if type(netWorth) is float:
+    swimInMoneyBin()
+```
+
+or this will be better:
+
+```console
+if isinstance(netWorth, float):
+    swimInMoneyBin()
+```
+
+Also, remember that *is* and *==* do not do the same thing. The *is* operator checks to see if the two operands are the **same instance**. On the other hand, *==* (among others) should be used for comparing **values**.
+
+### Strings
+
+We can wrap a literal in single quotes '...', double quotes "...", or triple quotes """...""". In Python, single-quoted strings and double-quoted strings are the same. Pick one and stick to it. When a string contains single or double quote characters, however, use the other one to avoid backslashes in the string. It improves readability.
+
+We could use triple quotes (""") if we have both, single and double characters in the string. Also, triple quotes are multiline. Everything, including newlines and leading whitespace, is literal in triple quotes. The only exception is if we escape something using a backslash (\).
+
+The other special use of triple quotes is in creating *docstrings*, which provide basic documentation for modules, classes, and functions.
+
+```console
+def swimInMoney():
+    """
+    If you're not Scrooge McDuck, please don't try this.
+    Gold hurts when you fall into it from forty feet.
+    """
+    pass
+
+ ...
+
+# This text can be accessed using
+print(swimInMoney.__doc__)
+```
+
+### Special String Types
+
+*Raw strings* are preceded with an r, such as...
+
+```console
+print(r"I love backslashes: \ Aren't they cool?")
+```
+
+In a raw string, the backslash is treated like a literal character. Nothing can be "escaped" inside of a raw string. This is particularly useful for **regular expression patterns**.
+
+The other "type" of string is a *formatted string*, or f-string. It allows you to insert the values of variables into a string in a very pretty way, without having to bother with concatenation or conversion.
+
+```console
+netWorth = 52348493767.50
+richestDuck = "Scrooge McDuck"
+print(f"{richestDuck} has a net worth of ${netWorth}.")
+```
+
+### Functions
+
+Suppose we have this function:
+
+```console
+def grapplingHook(direction: float, angle: float, battleCry: str = ""):
+    print(f"Direction = {direction}, Angle = {angle}, Battle Cry = {battleCry}")
+
+grapplingHook(angle=90, direction=43.7)
+```
+
+A typical use of the function should be like this:
+
+```console
+grapplingHook(43.7, 90, "")
+```
+
+However, if we want, we can actually specify which argument we're passing which values to. This makes our code more readable in many cases:
+
+```console
+grapplingHook(angle=90, direction=43.7)
+```
+
+Also note the default value for variable *battleCry*, just is case we don't provide the value when we call the function.
+
+It's pretty common to use None as a default value, so you can then check if the argument has a value specified, like this...
+
+```console
+def grapplingHook(direction, angle, battleCry = None):
+    if battleCry:
+        print(battleCry)
+```
+
 ## Next
 
-1. Data Typing and Immutability
 1. Classes
 1. Errors
 1. Loops and Iterators
