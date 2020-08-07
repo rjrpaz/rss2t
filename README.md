@@ -242,6 +242,16 @@ def grapplingHook(direction, angle, battleCry = None):
         print(battleCry)
 ```
 
+We can use *type hints* to suggest inputs and returned data types, like this:
+
+```console
+def grapplingHook(direction: float, angle: float, battleCry: str = "") -> None:
+```
+
+however this will not throw an error if the provided type is not the one explicitly listed. Is mostly used for documentation.
+
+Also you can use a return from the function. You can call return with no arguments (*None*) or return a variable. If return is never called, then the function implicitly calls return at the end of the function cycle.
+
 ## Next
 
 1. Classes
