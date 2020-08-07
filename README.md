@@ -6,6 +6,8 @@ This is a template for new python projects according to best practices and recom
 - *LICENSE.md* is proposed from GitHub for MIT license
 - Introducing "Dead Simple Python": [https://dev.to/codemouse92/introducing-dead-simple-python-563o](https://dev.to/codemouse92/introducing-dead-simple-python-563o)
 
+**I strongly suggest to read the "Dead Simple Python" guide for more comprehensive justification on every topic (don't miss the comments also). This should be considered just as "notes" from that article.**
+
 This are the main aspect to be considered according to best practices.
 
 ## Main topics to be considered in the project
@@ -252,9 +254,139 @@ however this will not throw an error if the provided type is not the one explici
 
 Also you can use a return from the function. You can call return with no arguments (*None*) or return a variable. If return is never called, then the function implicitly calls return at the end of the function cycle.
 
+## Classes
+
+Consider this piece of code as an example:
+
+```console
+class Starship(object):
+
+    sound = "Vrrrrrrrrrrrrrrrrrrrrr"
+
+    def __init__(self):
+        self.engines = False
+        self.engine_speed = 0
+        self.shields = True
+
+    def engage(self):
+        self.engines = True
+
+    def warp(self, factor):
+        self.engine_speed = 2
+        self.engine_speed *= factor
+
+    @classmethod
+    def make_sound(cls):
+        print(cls.sound)
+```
+
+Better define a class like this:
+
+```console
+class Starship(object):
+```
+
+Method:
+
+```console
+def warp(self, factor):
+```
+
+We pass self as the first parameters to every single method. An exception to this are *class methods*:
+
+```console
+@classmethod
+def make_sound(cls):
+```
+
+A class method is one that is shared between all instances of the class (objects). A class method never touches member variables or regular methods.
+
+We always access member variables in a class via the dot operator *self.*. We can't do that in a class method, and that's why we call the first argument *cls*. In a class method Python passes the class to that argument instead of the object. For a class method, we also MUST put the decorator *@classmethod* on the line just above our function declaration.
+
+Those methods from the example get called something like this:
+
+```console
+# Create our object from the starship class
+uss_enterprise = Starship()
+
+# Note, we aren't passing anything to 'self'. Python does that implicitly.
+uss_enterprise.warp(4)
+
+# We can call class functions on the object ...
+uss_enterprise.make_sound()
+
+# ... or directly on the class.
+Starship.make_sound()
+```
+
+You can also define static methods with the decorator *@staticmethod* like this:
+
+```console
+@staticmethod
+def beep():
+    print("Beep boop beep")
+```
+
+A static method doesn't access any of the class members; it doesn't even care that it's part of the class, and that's why it doesn't need the cls argument.
+
+Every Python class needs to have one, and only one, __init__(self) function. This is called the initializer. If you don't really need it, just define one empty (*pass*). The initializer is responsible for initializing the instance variables.
+
+In Python, our classes can have *instance variables*, which are unique to our object (instance), and *class variables (a.k.a. static variables)*, which belong to the class, and are shared between all instances. Using the same name for this two types of variables can be a source of error because when accessing a variable on the object, the instance variables can hide the class variables, making it behave not as we expect. You should *always* declare all your instance variables in the initializer, just to prevent something weird from happening, like a function attempting to access a variable that doesn't yet exist.
+
+There are no *private* scope for variables. There are however the chance of using an underscore in from of the variable name as a word of caution for anyone using the class, to not mess around with that variable.
+
+Anyway, if we positively know that a variable should ever be modified outside of the class, we can add two underscores. This does *name mangling*: it changes the name of the variable, adding a single underscore and the name of the class on the front. According to the example, if we were to change *self.shields* to *self.__shields*, it would be name mangled to *self._Starship__shields*.
+
+In Python, we can use *properties* the same way as *getters* and *setters* in Java. Properties are defined simply by preceding a method with *@property*. You can make a method look like an instance variable. Also, you can use the *@name_of_the_method.setter* as a setter. This is an example:
+
+```console
+class Starship:
+    def __init__(self):
+        # snip
+        self._captain = "Jean-Luc Picard"
+
+    @property
+    def captain(self):
+        return self._captain
+
+    @captain.setter
+    def captain(self, value):
+        print("What do you think this is, " + value + ", the USS Pegasus? Back to work!")
+```
+
+```console
+uss_enterprise = Starship()
+uss_enterprise.captain
+>>> 'Jean-Luc Picard'
+uss_enterprise.captain = "Wesley"
+>>> What do you think this is, Wesley, the USS Pegasus? Back to work!
+```
+
+this way you can use the method like a variable and assign values to it.
+
+### Inheritance
+
+When we create a class, we are inheriting from Python *object* class:
+
+```console
+class Starship(object):
+```
+
+we can inherit from our own classes this way:
+
+```console
+class USSDiscovery(Starship):
+
+    def __init__(self):
+        super().__init__()
+        self.spore_drive = True
+        self._captain = "Gabriel Lorca"
+```
+
+The *super().__init__()* line refers to the class we inherited from (in this case, Starship), and calls its initializer. We need to call this, so USSDiscovery has all the same instance variables as Starship.
+
 ## Next
 
-1. Classes
 1. Errors
 1. Loops and Iterators
 1. Iterator Power Tools
