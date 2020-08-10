@@ -38,10 +38,16 @@ source .venv/bin/activate
 
 This will change the prompt. Now we can run *pip* to install all  packages and dependencies required for our code.
 
-You can also create a *requirements.txt* file with the list of packages and then install them like this:
+You can also manually create a *requirements.txt* file with the list of packages and then install them like this:
 
 ```bash
 pip install -r requirements.txt
+```
+
+or you can create the *requirements.txt* file automatically, running this from the virtual environment:
+
+```bash
+pip freeze > requirements.txt
 ```
 
 to exit the virtual environment just run
@@ -385,9 +391,25 @@ class USSDiscovery(Starship):
 
 The *super().__init__()* line refers to the class we inherited from (in this case, Starship), and calls its initializer. We need to call this, so USSDiscovery has all the same instance variables as Starship.
 
+## Errors
+
+When an error is present in runtime, we get a *traceback*. It is recommended to read this traces bottom to top, as the last info being the most useful to find the source of the error.
+
+You can get exceptions from code like this:
+
+```console
+try:
+    code = int(input("Enter security protocol code: "))
+except ValueError:
+    code = 0
+initiate_security_protocol(code)
+```
+
+
+
+
 ## Next
 
-1. Errors
 1. Loops and Iterators
 1. Iterator Power Tools
 1. List Comprehensions and Generator Expressions
