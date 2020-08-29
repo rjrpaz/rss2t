@@ -8,9 +8,35 @@ This is a template for new python projects according to best practices and recom
 
 **I strongly suggest to read the "Dead Simple Python" guide for more comprehensive justification on every topic (don't miss the comments also). This should be considered just as "notes" from that article.**
 
-This are the main aspect to be considered according to best practices.
+To mirroring this repository into a new python project, do as following:
+
+1. Create new project on github:
+
+Following this example, the new project name is "new-repository".
+
+1. Create a bare clone of the repository:
+
+```bash
+git clone --bare https://github.com/rjrpaz/python-project-template.git
+```
+
+1. Mirror-push to the new repository:
+
+```bash
+cd python-project-template
+git push --mirror https://github.com/rjrpaz/new-repository.git
+```
+
+1. Remove the temporary local repository you created earlier:
+
+```bash
+cd ..
+rm -rf python-project-template
+```
 
 ## Main topics to be considered in the project
+
+These are the main aspects to be considered according to best practices.
 
 ### Virtual Environments and pip
 
@@ -404,9 +430,6 @@ except ValueError:
     code = 0
 initiate_security_protocol(code)
 ```
-
-
-
 
 ## Next
 
