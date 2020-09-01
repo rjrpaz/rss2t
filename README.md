@@ -123,9 +123,9 @@ this is NOT OK:
 pyproject/Data/LoadSettings.py
 ```
 
-A package can contain other packages. Thus, we can call our top-level directory as the main package and all the packages underneath as subpackages. If a subdirectory don't include *__init__.py*, it should not be considered a package.
+A package can contain other packages. Thus, we can call our top-level directory as the main package and all the packages underneath as subpackages. If a subdirectory don't include "__init__.py", it should not be considered a package.
 
-Another special file in the top-level package is *__main__.py*. This is the file that is run when we execute our top-level package directly via *python -m pyproject*.
+Another special file in the top-level package is "__main__.py". This is the file that is run when we execute our top-level package directly via *python -m pyproject*.
 
 Regarding to imports, we can use it like this:
 
@@ -161,7 +161,7 @@ python-project-template
 from pyproject.common.game_enums import GameMode
 ```
 
-According to this example, the content of *__main__.py* file is something like this:
+According to this example, the content of "__main__.py" file is something like this:
 
 ```console
 from pyproject import app
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     app.run()
 ```
 
-Also, *app.py* includes the following at the bottom of the file:
+Also, "app.py" includes the following at the bottom of the file:
 
 ```console
 if __name__ == '__main__':
