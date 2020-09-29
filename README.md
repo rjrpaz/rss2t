@@ -12,27 +12,27 @@ To mirroring this repository into a new python project, do as following:
 
 1. Create new project on github:
 
-Following this example, the new project name is "new-repository".
+    Following this example, the new project name is "new-repository".
 
 1. Create a bare clone of the repository:
 
-```bash
-git clone --bare https://github.com/rjrpaz/python-project-template.git
-```
+    ```bash
+    git clone --bare https://github.com/rjrpaz/python-project-template.git
+    ```
 
 1. Mirror-push to the new repository:
 
-```bash
-cd python-project-template
-git push --mirror https://github.com/rjrpaz/new-repository.git
-```
+    ```bash
+    cd python-project-template.git
+    git push --mirror https://github.com/rjrpaz/new-repository.git
+    ```
 
 1. Remove the temporary local repository you created earlier:
 
-```bash
-cd ..
-rm -rf python-project-template
-```
+    ```bash
+    cd ..
+    rm -rf python-project-template.git
+    ```
 
 ## Main topics to be considered in the project
 
