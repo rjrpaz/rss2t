@@ -1,19 +1,22 @@
-
-
 import requests
 import feedparser
 import time
-import json
-
-FEED_URL = 'https://www.feedforall.com/sample.xml'
+from rss2t import config, telegram
 
 def run():
-	rss_feed = feedparser.parse(FEED_URL)
-	for entry in rss_feed.entries:
-#		print(f"ENTRY {entry}")
-		timestamp = int(time.mktime(entry.published_parsed))
-		print(f"ENTRY {timestamp}")
-#		send_message(str(entry))
+	feeds = config.list_feeds()
+	for feed in feeds:
+		rss_feed = feedparser.parse(feed.url)
+		max_timestamp = 0
+
+		for entry in rss_feed.entries:
+			timestamp = int(time.mktime(entry.published_parsed))
+			if timestamp > int(feed.last):
+				telegram.send_message(entry.link, entry.summary)
+			if timestamp > max_timestamp:
+				max_timestamp = timestamp
+
+		feed.save_last(max_timestamp)
 
 if __name__ == '__main__':
     run()

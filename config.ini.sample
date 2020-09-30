@@ -1,0 +1,6 @@
+[DEFAULT]
+
+[test]
+last = 0
+url = https://www.feedforall.com/sample.xml
+

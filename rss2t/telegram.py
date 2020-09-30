@@ -1,21 +1,13 @@
 import requests
-import feedparser
-import time
-import json
+import html
+from rss2t.local_settings import bot_token, channel_id
+import re
 
-FEED_URL = 'https://www.feedforall.com/sample.xml'
+def cleanhtml(raw_html):
+	cleanr = re.compile('<.*?>')
+	cleantext = re.sub(cleanr, '', raw_html)
+	return cleantext
 
-
-def send_message(entry):
-#	print(json.dumps(entry, indent=4, sort_keys=True))
-#	json_data = json.loads(entry)[0]
-#	print("%s" % (entry['title']))
-#	print(type(entry))
-	entry = entry.replace("\'", "\"")
-	entry = entry.replace(": None", ": \"None\"")
-	entry = entry[:389]
-	print(entry)
-	parsed_json = json.loads(entry)
-#	print(type(parsed_json))
-	print (parsed_json["title"])
-#        requests.get(f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHANNEL_ID}&text={message}')
+def send_message(link, summary):
+	message = '\n'.join([link, cleanhtml(summary)])
+	requests.get(f'https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={channel_id}&text={message}')
