@@ -6,6 +6,8 @@ Creation of public or private Telegram channel to upload the message goes beyond
 
 [https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd](https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd)
 
+*token* obtainer after the bot's creationd and *channel id* should be saven in a file named *locaL_settings.py* in the project directory.
+
 ## How to use this module
 
 1. Clone this project
@@ -25,6 +27,8 @@ Creation of public or private Telegram channel to upload the message goes beyond
     ```bash
     pip install -r requirements.txt
     ```
+
+1. Create **local_settings.py** file. This file should include the info about the *bot token* and the *channel id*. Check file named **local_settings.py.sample** to use it as reference.
 
 1. Create a **config.ini** file to define the RSS feeds (you can check **config.ini.sample** as a guideline to create your own file).
 
