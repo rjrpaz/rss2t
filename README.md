@@ -6,7 +6,10 @@ Creation of public or private Telegram channel to upload the message goes beyond
 
 [https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd](https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd)
 
-*token* obtainer after the bot's creationd and *channel id* should be saven in a file named *locaL_settings.py* in the project directory.
+- *token* is obtained after the bot's creation
+- *channel id* can be obtained from channel information
+
+Documentation about configparser module: [https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
 
 ## How to use this module
 
@@ -30,9 +33,17 @@ Creation of public or private Telegram channel to upload the message goes beyond
 
 1. Create **local_settings.py** file. This file should include the info about the *bot token* and the *channel id*. Check file named **local_settings.py.sample** to use it as reference.
 
-1. Create a **config.ini** file to define the RSS feeds (you can check **config.ini.sample** as a guideline to create your own file).
+1. Create a **config.ini** file to define credentials, channel ID and RSS feeds (you can check **config.ini.sample** as a guideline to create your own file).
 
-    Each RSS feed should be defined like this:
+    'DEFAULT' section should include **bot_token** and **channel_id**:
+
+    ```bash
+    [DEFAULT]
+    bot_token = use_real_token_from_your_bot
+    channel_id = user_real_channel_id
+    ```
+
+    Remaining sections include information about RSS feeds. Each RSS channel should be defined like this:
 
     ```bash
     [tag_for_this_rss_feed]
@@ -40,7 +51,7 @@ Creation of public or private Telegram channel to upload the message goes beyond
     url = rss_feed_url
     ```
 
-    Each feed should have its own tag.
+    Every feed should have a different tag.
 
 1. Run the module like the following:
 
