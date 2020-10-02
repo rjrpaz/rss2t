@@ -60,3 +60,12 @@ Check about html tags supported by the Telegram API here: [https://core.telegram
     ```bash
     python -m rss2t
     ```
+
+## Utils
+
+### ./utils/add_feed.py
+
+Allow to add a new feed to config.ini file. It requires two arguments:
+
+- A name to be used as tag.
+- An URL.
