@@ -15,5 +15,5 @@ def send_message(link, summary):
 	config.read(config_ini)
 
 	message = '\n'.join([link, cleanhtml(summary)])
-	print (message)
+#	print (message)
 	requests.get(f'https://api.telegram.org/bot{config["DEFAULT"]["bot_token"]}/sendMessage?chat_id={config["DEFAULT"]["channel_id"]}&text={message}')
