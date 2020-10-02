@@ -11,6 +11,8 @@ Creation of public or private Telegram channel to upload the message goes beyond
 
 Documentation about configparser module: [https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
 
+Check about html tags supported by the Telegram API here: [https://core.telegram.org/bots/api#html-style](https://core.telegram.org/bots/api#html-style)
+
 ## How to use this module
 
 1. Clone this project
