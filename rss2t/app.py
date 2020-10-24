@@ -12,7 +12,7 @@ def run():
 		for entry in rss_feed.entries:
 			timestamp = int(time.mktime(entry.published_parsed))
 			if timestamp > int(feed.last):
-				telegram.send_message(feed.tag, entry.link, entry.summary)
+				telegram.send_message(feed.tag, feed.channel_id, entry.link, entry.summary)
 			if timestamp > max_timestamp:
 				max_timestamp = timestamp
 

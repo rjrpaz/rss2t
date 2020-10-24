@@ -1,5 +1,6 @@
 import logging
 import configparser
+from configparser import ConfigParser, ExtendedInterpolation
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -12,6 +13,7 @@ class Feed(object):
         self.tag = None
         self.last = 0
         self.url = ''
+        self.channel_id = ''
 
     def save_last(self, last):
         logger.info(f"Storing timestamp {last} for tag {self.tag}")
@@ -25,10 +27,13 @@ class Feed(object):
 
 def list_feeds():
     feeds = []
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=ExtendedInterpolation())
     config.read(config_ini)
     sections = config.sections()
     for section in sections:
+        if section == 'CHANNELS':
+            continue
+
         feed = Feed()
         feed.tag = section
         logger.info(f"Procesing section {section}")
@@ -36,6 +41,10 @@ def list_feeds():
             feed.url = config[section]['url']
         except:
             print(f"Section {section} don't have url")
+        try:
+            feed.channel_id = config[section]['channel_id']
+        except:
+            print(f"Section {section} don't have channel_id")
         if not config[section]['last']:
             feed.last = 0
         else:

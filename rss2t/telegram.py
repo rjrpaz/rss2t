@@ -10,10 +10,10 @@ def cleanhtml(raw_html):
 	cleantext = re.sub(cleanr, '', raw_html)
 	return cleantext
 
-def send_message(tag, link, summary):
+def send_message(tag, channel_id, link, summary):
 	config = configparser.ConfigParser()
 	config.read(config_ini)
 
 	message = '\n'.join([tag,link, cleanhtml(summary)])
 #	print (message)
-	requests.get(f'https://api.telegram.org/bot{config["DEFAULT"]["bot_token"]}/sendMessage?chat_id={config["DEFAULT"]["channel_id"]}&text={message}')
+	requests.get(f'https://api.telegram.org/bot{config["DEFAULT"]["bot_token"]}/sendMessage?chat_id={channel_id}&text={message}')
