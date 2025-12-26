@@ -7,6 +7,7 @@ def run():
 	feeds = config.list_feeds()
 	for feed in feeds:
 		rss_feed = feedparser.parse(feed.url)
+#		print("FEED:" + feed.url)
 		max_timestamp = 0
 
 		for entry in rss_feed.entries:
