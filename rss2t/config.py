@@ -18,39 +18,45 @@ class Feed(object):
     def save_last(self, last):
         logger.info(f"Storing timestamp {last} for tag {self.tag}")
         config = configparser.ConfigParser()
-        config.read(config_ini)
-
-        config.set(self.tag, 'last', str(last))
-        with open(config_ini, 'w') as configfile:
-            config.write(configfile, True)
-        del config
+        try:
+            config.read(config_ini)
+            config.set(self.tag, 'last', str(last))
+            with open(config_ini, 'w') as configfile:
+                config.write(configfile, True)
+        except Exception as e:
+            logger.error(f"Error saving timestamp for {self.tag}: {e}")
+        finally:
+            del config
 
 def list_feeds():
     feeds = []
     config = configparser.ConfigParser(interpolation=ExtendedInterpolation())
-    config.read(config_ini)
-    sections = config.sections()
-    for section in sections:
-        if section == 'CHANNELS':
-            continue
+    try:
+        config.read(config_ini)
+        sections = config.sections()
+        for section in sections:
+            if section == 'CHANNELS':
+                continue
 
-        feed = Feed()
-        feed.tag = section
-        logger.info(f"Procesing section {section}")
-        try:
-            feed.url = config[section]['url']
-        except:
-            print(f"Section {section} don't have url")
-        try:
-            feed.channel_id = config[section]['channel_id']
-        except:
-            print(f"Section {section} don't have channel_id")
-        if not config[section]['last']:
-            feed.last = 0
-        else:
-            feed.last = config[section]['last']
-        feeds.append(feed)
-    
-    del config
+            feed = Feed()
+            feed.tag = section
+            logger.info(f"Procesing section {section}")
+            try:
+                feed.url = config[section]['url']
+            except:
+                print(f"Section {section} don't have url")
+            try:
+                feed.channel_id = config[section]['channel_id']
+            except:
+                print(f"Section {section} don't have channel_id")
+            if not config[section]['last']:
+                feed.last = 0
+            else:
+                feed.last = config[section]['last']
+            feeds.append(feed)
+    except Exception as e:
+        logger.error(f"Error reading configuration: {e}")
+    finally:
+        del config
 
     return feeds
