@@ -10,7 +10,7 @@ class TimeoutError(Exception):
 def timeout_handler(_, __):
     raise TimeoutError("Operation timed out")
 
-TIMEOUT=300
+TIMEOUT=1800
 def run(timeout_seconds=TIMEOUT):
     signal.signal(signal.SIGALRM, timeout_handler)
 
@@ -22,7 +22,7 @@ def run(timeout_seconds=TIMEOUT):
                 feeds = config.list_feeds()
                 for feed in feeds:
                     rss_feed = feedparser.parse(feed.url)
-                    # print("FEED:" + feed.url)
+#                    print("FEED:" + feed.url)
                     max_timestamp = 0
 
                     for entry in rss_feed.entries:
@@ -35,8 +35,7 @@ def run(timeout_seconds=TIMEOUT):
                     feed.save_last(max_timestamp)
 
                 signal.alarm(0)
-                print("RSS processing cycle completed successfully")
-                time.sleep(60)
+                sys.exit(0)
 
             except TimeoutError:
                 print("RSS processing timed out, continuing to next cycle...")
