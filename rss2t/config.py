@@ -23,6 +23,7 @@ class Feed(object):
             config.set(self.tag, 'last', str(last))
             with open(config_ini, 'w') as configfile:
                 config.write(configfile, True)
+                configfile.flush()  # Ensure data is written to disk immediately
         except Exception as e:
             logger.error(f"Error saving timestamp for {self.tag}: {e}")
         finally:
