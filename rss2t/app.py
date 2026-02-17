@@ -32,7 +32,8 @@ def run(timeout_seconds=TIMEOUT):
                         if timestamp > max_timestamp:
                             max_timestamp = timestamp
 
-                    feed.save_last(max_timestamp)
+                    if max_timestamp > int(feed.last):
+                        feed.save_last(max_timestamp)
 
                 signal.alarm(0)
                 sys.exit(0)
