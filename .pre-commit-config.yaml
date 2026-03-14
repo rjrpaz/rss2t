@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: .venv/bin/pylint
+        language: system
+        types: [python]
+        exclude: ^\.venv/
+        stages: [pre-push]
