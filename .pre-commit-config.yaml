@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: .venv/bin/pylint
+        entry: pylint
         language: system
         stages: [pre-push]
         pass_filenames: false
