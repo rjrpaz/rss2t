@@ -20,10 +20,9 @@ if tag in config.sections():
     print(f"Tag {tag} already exist!")
     exit(1)
 
-try:
-    feed.channel_id = config['CHANNELS'][channel]
-except:
+if channel not in config['CHANNELS']:
     print(f"Channel {channel} not included in the 'CHANNELS' section")
+    exit(1)
 
 
 config[tag] = {}

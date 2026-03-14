@@ -1,0 +1,11 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        args: [rss2t/, utils/]
