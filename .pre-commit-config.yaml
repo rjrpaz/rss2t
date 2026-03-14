@@ -6,8 +6,6 @@ repos:
         name: pylint
         entry: .venv/bin/pylint
         language: system
-        types: [python]
-        exclude: ^\.venv/
         stages: [pre-push]
         pass_filenames: false
         args: [rss2t/, utils/]
