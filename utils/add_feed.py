@@ -1,28 +1,30 @@
 #!/usr/bin/env python3
+"""Append a new RSS feed entry to config.ini."""
 import sys
 import configparser
 
-config_ini = 'config.ini'
+CONFIG_INI = 'config.ini'
 
 if len(sys.argv) != 4:
-    print(f"Run as:\n\n\t{sys.argv[0]} <TAG> <CHANNEL_TAG> <URL>\n\n")
-    print(f"Ex:\n\n\t{sys.argv[0]} RESTAURANT entertainment https://www.feedforall.com/sample.xml\n\n")
-    exit(0)
+    print(f"Run as:\n\n\t{sys.argv[0]} <TAG> <CHANNEL_TAG> <URL>\n")
+    print(f"Ex:\n\n\t{sys.argv[0]} RESTAURANT entertainment"
+          " https://www.feedforall.com/sample.xml\n")
+    sys.exit(0)
 
 tag = sys.argv[1]
 channel = sys.argv[2]
 url = sys.argv[3]
 
 config = configparser.ConfigParser()
-config.read(config_ini)
+config.read(CONFIG_INI)
 
 if tag in config.sections():
     print(f"Tag {tag} already exist!")
-    exit(1)
+    sys.exit(1)
 
 if channel not in config['CHANNELS']:
     print(f"Channel {channel} not included in the 'CHANNELS' section")
-    exit(1)
+    sys.exit(1)
 
 
 config[tag] = {}
@@ -30,5 +32,5 @@ config[tag]['last'] = '0'
 config[tag]['url'] = url
 config[tag]['channel_id'] = '${CHANNELS:' + channel + '}'
 
-with open(config_ini, 'w') as configfile:
+with open(CONFIG_INI, 'w', encoding='utf-8') as configfile:
     config.write(configfile)
