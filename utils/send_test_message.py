@@ -40,5 +40,5 @@ response = requests.get(
 if response.ok and response.json().get('ok'):
     print(f"Test message sent successfully to channel '{channel_tag}' ({channel_id})")
 else:
-    print(f"Failed to send message: {response.text}")
+    print(f"Failed to send message to channel_id '{channel_id}': {response.text}")
     sys.exit(1)
