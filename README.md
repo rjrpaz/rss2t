@@ -2,18 +2,59 @@
 
 Simple boot to use as a gateway between a RSS feeder and a Telegram channel.
 
-I prefer to use multiple telegram channels with a single bot. Ever RSS can be forwarded to a specific channel. For example, you can group multiple news feeds to a single news channel, multiple entertainment feeds to a separated channel, etc.
+I prefer to use multiple telegram channels with a single bot. Every RSS feed
+can be forwarded to a specific channel. For example, you can group multiple
+news feeds to a single news channel, multiple entertainment feeds to a
+separated channel, etc.
 
-Creation of public or private Telegram channel to upload the message goes beyond the scope of this document. You can check some guidelines here:
+Creation of public or private Telegram channel to upload the message goes
+beyond the scope of this document. You can check some guidelines here:
 
 [https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd](https://medium.com/@ljmocic/make-telegram-bot-for-notifying-about-new-rss-feed-items-4cfbcc37f4fd)
 
 - *token* is obtained after the bot's creation
 - *channel id* can be obtained from channel information
 
-Documentation about configparser module: [https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
+Documentation about configparser module:
+[https://docs.python.org/3/library/configparser.html](https://docs.python.org/3/library/configparser.html)
 
-Check about html tags supported by the Telegram API here: [https://core.telegram.org/bots/api#html-style](https://core.telegram.org/bots/api#html-style)
+Check about html tags supported by the Telegram API here:
+[https://core.telegram.org/bots/api#html-style](https://core.telegram.org/bots/api#html-style)
+
+## Creating a Telegram channel for this bot
+
+1. In Telegram, tap the pencil icon → **New Channel**. Choose a name and set
+   the channel type to **Private**.
+
+1. Open the channel → **Administrators** → **Add Admin** → search for
+   `@rss2t_bot` and add it. Grant at least the **Post Messages** permission.
+
+1. Get the channel's numeric ID. The easiest way is to call the `getUpdates`
+   endpoint after the bot is an admin:
+
+    ```bash
+    curl "https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates"
+    ```
+
+    Look for a `channel_post` object — the value at `chat.id` is the channel
+    ID. It will be a negative number starting with `-100`,
+    e.g. `-1001234567890`.
+
+    > If `getUpdates` returns nothing, post a message in the channel first so
+    > the bot registers an update.
+
+1. Add the channel to the `[CHANNELS]` section of `config.ini`:
+
+    ```ini
+    [CHANNELS]
+    mychannel = -1001234567890
+    ```
+
+1. Verify the bot can post to it:
+
+    ```bash
+    python utils/send_test_message.py mychannel
+    ```
 
 ## How to use this module
 
@@ -35,37 +76,36 @@ Check about html tags supported by the Telegram API here: [https://core.telegram
     pip install -r requirements.txt
     ```
 
-1. Create **local_settings.py** file. This file should include the info about the *bot token* and the *channel id*. Check file named **local_settings.py.sample** to use it as reference.
+1. Create a **config.ini** file to define credentials, channel IDs and RSS
+   feeds (you can check **config.ini.sample** as a guideline).
 
-1. Create a **config.ini** file to define credentials, channel ID and RSS feeds (you can check **config.ini.sample** as a guideline to create your own file).
+    `DEFAULT` section should include **bot_token**:
 
-    'DEFAULT' section should include **bot_token**:
-
-    ```bash
+    ```ini
     [DEFAULT]
     bot_token = use_real_token_from_your_bot
     ```
 
-    'CHANNELS' section should include **tag** for each telegram channel along with its **channel_id**:
+    `CHANNELS` section should include a **tag** for each Telegram channel
+    along with its numeric **channel_id**:
 
-    ```bash
+    ```ini
     [CHANNELS]
     channel1 = channel_id_for_channel1
     channel2 = channel_id_for_channel2
-       ...
     ```
 
-    Remaining sections include information about RSS feeds. Each RSS channel should be defined like this:
+    Remaining sections define RSS feeds. Each feed should look like this:
 
-    ```bash
+    ```ini
     [tag_for_this_rss_feed]
     last = 0
     url = rss_feed_url
     channel_id = ${CHANNELS:channel1}
-       ...
     ```
 
-    Every feed should have a different tag. Also, channel_id should refer to the tag of the channel according to *CHANNELS* section.
+    Every feed must have a unique tag. `channel_id` must reference a tag
+    defined in the `CHANNELS` section.
 
 1. Run the module like this:
 
