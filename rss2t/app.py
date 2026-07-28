@@ -17,8 +17,10 @@ def _timeout_handler(_, __):
     raise _RssTimeoutError("Operation timed out")
 
 
-def _process_feed(feed):
+def _process_feed(feed, show_url=False):
     """Fetch a single RSS feed and send any new entries to Telegram."""
+    if show_url:
+        print(f"Processing feed '{feed.tag}': {feed.url}")
     rss_feed = feedparser.parse(feed.url)
     max_timestamp = 0
 
@@ -35,7 +37,7 @@ def _process_feed(feed):
 TIMEOUT = 1800
 
 
-def run(timeout_seconds=TIMEOUT):
+def run(timeout_seconds=TIMEOUT, show_url=False):
     """Poll all configured feeds once, send new entries, then exit."""
     signal.signal(signal.SIGALRM, _timeout_handler)
 
@@ -44,7 +46,7 @@ def run(timeout_seconds=TIMEOUT):
             signal.alarm(timeout_seconds)
             try:
                 for feed in config.list_feeds():
-                    _process_feed(feed)
+                    _process_feed(feed, show_url)
                 signal.alarm(0)
                 sys.exit(0)
             except _RssTimeoutError:
