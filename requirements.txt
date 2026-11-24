@@ -6,4 +6,4 @@ idna==3.15
 legacy-cgi==2.6.4
 requests==2.33.0
 sgmllib3k==1.0.0
-urllib3==2.7.0
+urllib3==2.8.0
